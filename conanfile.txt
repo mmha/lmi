@@ -1,0 +1,5 @@
+[requires]
+googletest/1.7.0@azriel91/stable-1
+
+[generators]
+cmake
