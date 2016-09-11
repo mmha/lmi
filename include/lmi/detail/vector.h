@@ -258,15 +258,21 @@ namespace lmi
 		return res;
 	}
 
-	typedef Vector<2, float> vec2;
-	typedef Vector<3, float> vec3;
-	typedef Vector<4, float> vec4;
-	typedef Vector<2, float> vec2f;
-	typedef Vector<3, float> vec3f;
-	typedef Vector<4, float> vec4f;
-	typedef Vector<2, double> vec2d;
-	typedef Vector<3, double> vec3d;
-	typedef Vector<4, double> vec4d;
+	using vec2 = Vector<2, float>;
+	using vec3 = Vector<3, float>;
+	using vec4 = Vector<4, float>;
+	using vec2f = Vector<2, float>;
+	using vec3f = Vector<3, float>;
+	using vec4f = Vector<4, float>;
+	using vec2d = Vector<2, double>;
+	using vec3d = Vector<3, double>;
+	using vec4d = Vector<4, double>;
+	using vec2i = Vector<2, int>;
+	using vec3i = Vector<3, int>;
+	using vec4i = Vector<4, int>;
+	using vec2ui = Vector<2, unsigned>;
+	using vec3ui = Vector<3, unsigned>;
+	using vec4ui = Vector<4, unsigned>;
 }
 
 #endif
