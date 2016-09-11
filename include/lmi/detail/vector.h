@@ -20,9 +20,7 @@ namespace lmi
 		using detail::VectorBase<DIM, T>::vals;
 
 		public:
-		constexpr Vector()	// Zero initialize?
-		{
-		}
+		constexpr Vector() = default;
 
 		constexpr explicit Vector(T y)	// implcit could be useful...
 		{
@@ -231,6 +229,12 @@ namespace lmi
 	{
 		return sqrt(dot(x, x));
 	}
+	
+	template <size_t DIM, typename T>
+	constexpr Vector<DIM, T> normalize(const Vector<DIM, T> &x)
+	{
+		return x / length(x);
+	}
 
 	template <size_t DIM, typename T>
 	constexpr T dot(const Vector<DIM, T> &x, const Vector<DIM, T> &y)
@@ -248,8 +252,27 @@ namespace lmi
 	{
 		return {x[1] * y[2] - x[2] * y[1], x[2] * y[0] - x[0] * y[2], x[0] * y[1] - x[1] * y[0]};
 	}
+	
+	template <size_t DIM, typename T>
+	constexpr T angle(const Vector<DIM, T> &x, const Vector<DIM, T> &y)
+	{
+		return 1.0 / std::cos(dot(x, y) / (length(x) * length(y)));
+	}
 
-	template <typename Func, uint32_t DIM, typename... Arg>
+	template <size_t DIM, typename T>
+	constexpr Vector<DIM, T> project(const Vector<DIM, T> &x, const Vector<DIM, T> &y)
+	{
+		auto lengthSq = length(y) * length(y);
+		return y * (dot(x, y) / lengthSq);
+	}
+
+	template <size_t DIM, typename T>
+	constexpr Vector<DIM, T> perpendicular(const Vector<DIM, T> &x, const Vector<DIM, T> &y)
+	{
+		return x - project(x, y);
+	}
+
+	template <typename Func, size_t DIM, typename... Arg>
 	constexpr auto apply(Func f, Vector<DIM, Arg> &&... args)
 	{
 		Vector<DIM, decltype(f(args[0]...))> res;

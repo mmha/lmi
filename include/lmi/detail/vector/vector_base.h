@@ -29,6 +29,11 @@ namespace lmi
 			union {
 				T vals[roundToNextPower(DIM)];
 			};
+			
+			constexpr VectorBase()
+			: vals{}
+			{
+			}
 		};
 
 		template <typename T>
@@ -49,13 +54,18 @@ namespace lmi
 					T u, v;
 				};
 			};
+			
+			constexpr VectorBase()
+			: vals{}
+			{
+			}
 		};
 
 		template <typename T>
 		struct alignas(alignIfSIMD(3) * sizeof(T)) VectorBase<3, T>
 		{
 			union {
-				T vals[3];
+				T vals[3] {};
 				struct
 				{
 					T x, y, z;
@@ -65,13 +75,18 @@ namespace lmi
 					T r, g, b;
 				};
 			};
+			
+			constexpr VectorBase()
+			: vals{}
+			{
+			}
 		};
 
 		template <typename T>
 		struct alignas(alignIfSIMD(4) * sizeof(T)) VectorBase<4, T>
 		{
 			union {
-				T vals[4];
+				T vals[4] {};
 				struct
 				{
 					T x, y, z, w;
@@ -81,6 +96,11 @@ namespace lmi
 					T r, g, b, a;
 				};
 			};
+			
+			constexpr VectorBase()
+			: vals{}
+			{
+			}
 		};
 	}
 }

@@ -9,6 +9,7 @@
 
 #include "algorithm/decomposition.h"
 #include "gfx/transform.h"
+#include "gfx/projection.h"
 
 #if defined(__SSE4_1__)
 #include "detail/vector/sse.h"

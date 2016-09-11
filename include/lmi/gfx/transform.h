@@ -4,6 +4,7 @@
 #include "../detail/matrix.h"
 #include <cmath>
 #include <cstdint>
+#include <type_traits>
 
 namespace lmi
 {
@@ -12,7 +13,7 @@ namespace lmi
 	{
 		const auto vals = {params...};
 		const auto DIM = sizeof...(T) + 1;
-		using value_type = typename decltype(vals)::value_type;
+		using value_type = std::decay_t<typename decltype(vals)::value_type>;
 
 		Matrix<DIM, DIM, value_type> res(1);
 		size_t i = 0;
@@ -29,7 +30,7 @@ namespace lmi
 	{
 		auto vals = {params...};
 		const auto DIM = sizeof...(T);
-		using value_type = typename decltype(vals)::value_type;
+		using value_type = std::decay_t<typename decltype(vals)::value_type>;
 
 		Matrix<DIM, DIM, value_type> res(value_type{});
 		size_t i = 0;
