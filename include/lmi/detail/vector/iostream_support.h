@@ -23,19 +23,19 @@ namespace lmi
 	inline std::ostream &operator<<(std::ostream &stream, const Matrix<COLS, ROWS, T> &v)
 	{
 		stream << "[";
-		for(size_t i = 0; i < COLS - 1; ++i)
+		for(size_t i = 0; i < ROWS - 1; ++i)
 		{
-			for(size_t j = 0; j < ROWS - 1; ++j)
+			for(size_t j = 0; j < COLS - 1; ++j)
 			{
 				stream << v[j][i] << '\t';
 			}
 			stream << v[COLS - 1][i] << ";\n";
 		}
-		for(size_t j = 0; j < ROWS - 1; ++j)
+		for(size_t i = 0; i < COLS - 1; ++i)
 		{
-			stream << v[j][ROWS - 1] << '\t';
+			stream << v[i][ROWS - 1] << '\t';
 		}
-		stream << v[ROWS - 1][COLS - 1] << "]";
+		stream << v[COLS - 1][ROWS - 1] << "]";
 		return stream;
 	}
 

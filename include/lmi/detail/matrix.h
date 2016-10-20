@@ -55,7 +55,7 @@ namespace lmi
 				  typename = typename std::enable_if_t<(ROWS * COLS != 0) && ((sizeof...(E) == ROWS * COLS))>>
 		constexpr Matrix(E &&... args)
 		{
-			fillArray(std::forward_as_tuple(args...));
+			fillArray(0, std::forward<E>(args)...);
 		}
 
 		constexpr Vector<ROWS, T> &operator[](size_t i)
@@ -128,12 +128,12 @@ namespace lmi
 		{
 			Matrix<OTHERCOLS, ROWS, T> res(T{});
 
-			for(size_t k = 0; k < OTHERCOLS; ++k)
-				for(size_t i = 0; i < ROWS; ++i)
-					for(size_t j = 0; j < COLS; ++j)
-					{
-						res[i][j] = res[i][j] + col[k][j] * other[i][k];
-					}
+			for(size_t k = 0; k < COLS; ++k)
+			for(size_t j = 0; j < OTHERCOLS; ++j)
+			for(size_t i = 0; i < ROWS; ++i)
+			{
+				res[j][i] += col[k][i] * other[j][k];
+			}
 
 			return res;
 		}
@@ -221,17 +221,16 @@ namespace lmi
 			return *this;
 		}
 
-		protected:
-		template <size_t i = 0, typename... E>
-		constexpr typename std::enable_if_t<i == ROWS * COLS, void> fillArray(std::tuple<E...>)
+		private:
+		constexpr void fillArray(size_t)
 		{
 		}
 
-		template <size_t i = 0, typename... E>
-			constexpr typename std::enable_if_t < i<ROWS * COLS, void> fillArray(std::tuple<E...> tuple)
+		template <typename U, typename... E>
+		constexpr void fillArray(size_t i, U &&u, E &&... e)
 		{
-			col[i % ROWS][i / ROWS] = std::get<i>(tuple);
-			fillArray<i + 1, E...>(tuple);
+			col[i % COLS][i / COLS] = std::forward<U>(u);
+			fillArray(i + 1, std::forward<E>(e)...);
 		}
 
 		Vector<ROWS, T> col[COLS];
@@ -266,11 +265,11 @@ namespace lmi
 	constexpr Matrix<COLS, ROWS, T> transpose(const Matrix<ROWS, COLS, T> &m)
 	{
 		Matrix<COLS, ROWS, T> res;
-		for(int i = 0; i < ROWS; ++i)
-			for(int j = 0; j < COLS; ++j)
-			{
-				res[j][i] = m[i][j];
-			}
+		for(size_t i = 0; i < ROWS; ++i)
+		for(size_t j = 0; j < COLS; ++j)
+		{
+			res[j][i] = m[i][j];
+		}
 		return res;
 	}
 
@@ -279,11 +278,11 @@ namespace lmi
 	constexpr Matrix<DIM, DIM, T> inverse(const Matrix<DIM, DIM, T> &m)
 	{
 		Matrix<DIM, DIM, T> res(1), cpy(m);
-		for(int i = 0; i < DIM; ++i)
+		for(size_t i = 0; i < DIM; ++i)
 		{
 			res[i] /= cpy[i][i];
 			cpy[i] /= cpy[i][i];
-			for(int j = 0; j < DIM; ++j)
+			for(size_t j = 0; j < DIM; ++j)
 			{
 				if(i == j)
 					continue;
