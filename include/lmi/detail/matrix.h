@@ -170,7 +170,7 @@ namespace lmi
 		{
 			for(unsigned int i = 0; i < ROWS; ++i)
 			{
-				col[i] = col[i] + other;
+				col[i] = col[i] * other;
 			}
 			return *this;
 		}

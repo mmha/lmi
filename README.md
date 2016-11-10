@@ -4,7 +4,7 @@ lmi
 lmi is a simple heady only library for C++ mainly intended for computer graphics applications and tries to resemble GLSL syntax.
 ### Main Features:
 * Good CMake Integration
-* `constexpr` where possible - Run linear algebra computations at runtime
+* `constexpr` where possible - Run linear algebra computations at compiletime
 * Completely generic, you can create integer vector types or use `__float128`, boost.multiprecision or boost.units
 * No heap allocations - Easy to integrate in software running in a freestanding enviroment
 * IO is compatible with MATLAB
